@@ -1,7 +1,7 @@
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-// import { Provider } from 'react-redux';
-// import { store } from '@/store/store';
+import { Provider } from 'react-redux';
+import { store } from '@/store/store';
 import { ReactElement, ReactNode } from 'react';
 import type { NextPage } from 'next';
 import './globals.css';
@@ -26,9 +26,9 @@ function CustomApp({ Component, pageProps }: AppPropsWithLayout) {
         <title>E-commerce MVP</title>
       </Head>
       <main className="app">
-        {/* <Provider store={store}> */}
-        {getLayout(<Component {...pageProps} />)}
-        {/* </Provider> */}
+        <Provider store={store}>
+          {getLayout(<Component {...pageProps} />)}
+        </Provider>
       </main>
     </>
   );
