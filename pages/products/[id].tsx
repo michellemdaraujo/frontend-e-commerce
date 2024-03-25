@@ -1,8 +1,9 @@
 import Image from 'next/image';
 import { useEffect, useMemo } from 'react';
 import Link from 'next/link';
+import { NextSeo } from 'next-seo';
 
-import { useAppDispatch, useAppSelector } from '@/store/store';
+import { useAppDispatch, useAppSelector, wrapper } from '@/store/store';
 import {
   productByIdSelector,
   designerByIdSelector,
@@ -109,6 +110,10 @@ const ProductPage = () => {
 
   return (
     <div className="flex flex-col items-center py-8">
+      <NextSeo
+        title={`E-Commerce // ${product.name}`}
+        description={product.description}
+      />
       <div className="max-w-screen-xl px-4 ">
         <Link
           href="/"
@@ -166,5 +171,18 @@ const ProductPage = () => {
     </div>
   );
 };
+
+ProductPage.getInitialProps = wrapper.getInitialPageProps(
+  ({ dispatch, getState }) =>
+    async (context) => {
+      const { id } = context.query;
+      await dispatch(getProductById(id as string));
+
+      const product = getState().products[0];
+      await dispatch(getDesignerById(product.designer_id));
+      await dispatch(getBrandById(product.brand_id));
+      await dispatch(getCategories(product.category_id));
+    },
+);
 
 export default ProductPage;

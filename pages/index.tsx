@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo, useCallback, ReactElement } from 'react';
 import Image from 'next/image';
+import { NextSeo } from 'next-seo';
 
 import { useAppDispatch, useAppSelector } from '@/store/store';
 import { getProducts } from '@/store/features/products-slice';
@@ -12,8 +13,12 @@ import Spinner from '@/components/spinner';
 import { Layout } from '@/layouts/layout';
 
 import EmptySearchImage from '../public/empty.jpg';
-// import { GetServerSideProps } from 'next';
-// import { API_URL } from '@/config/environment';
+import {
+  Brand,
+  Category,
+  Designer,
+  Product as ProductType,
+} from '@/store/types';
 
 export const Home = () => {
   const dispatch = useAppDispatch();
@@ -55,7 +60,7 @@ export const Home = () => {
 
   const designersOptions = useMemo(
     () =>
-      designers?.map((designer) => ({
+      designers?.map((designer: Designer) => ({
         name: designer.name,
         value: designer.id,
       })),
@@ -72,12 +77,11 @@ export const Home = () => {
 
   const brandsOptions = useMemo(
     () =>
-      brands?.map((brand) => ({
+      brands?.map((brand: Brand) => ({
         name: brand.name,
         value: brand.id,
-        selected: brand.id === selectedBrand,
       })),
-    [brands, selectedBrand],
+    [brands],
   );
 
   const onChangeDesigner = useCallback(
@@ -90,12 +94,11 @@ export const Home = () => {
 
   const categoriesOptions = useMemo(
     () =>
-      categories?.map((category) => ({
+      categories?.map((category: Category) => ({
         name: category.name,
         value: category.id,
-        selected: category.id === selectedCategory,
       })),
-    [categories, selectedCategory],
+    [categories],
   );
 
   const onChangeCategory = useCallback(
@@ -124,7 +127,7 @@ export const Home = () => {
     if (products.length) {
       return (
         <ul className="flex flex-wrap justify-center py-2">
-          {products.map((product) => (
+          {products.map((product: ProductType) => (
             <li key={product.id} className="mx-2 my-4">
               <Product product={product} />
             </li>
@@ -147,6 +150,10 @@ export const Home = () => {
 
   return (
     <main className="px-8 py-8 md:px-16">
+      <NextSeo
+        title="E-Commerce // Products"
+        description="Browse the best fashion products in the universe"
+      />
       <div className="mx-auto max-w-screen-xl">
         <h1 className="text-xl text-gray-800">Products Catalog</h1>
         <div className="flex flex-col items-start py-4 md:flex-row">
@@ -194,23 +201,5 @@ export const Home = () => {
 };
 
 Home.getLayout = (page: ReactElement) => <Layout>{page}</Layout>;
-
-// export const getServerSideProps: GetServerSideProps = async () => {
-//   const response = await fetch(`${API_URL}/products`, {
-//     method: 'GET',
-//     headers: {
-//       'Content-Type': 'application/json; charset=utf-8',
-//       Accept: 'application/json',
-//     },
-//   });
-
-//   const data = await response.json();
-
-//   return {
-//     props: {
-//       products: data,
-//     },
-//   };
-// };
 
 export default Home;
