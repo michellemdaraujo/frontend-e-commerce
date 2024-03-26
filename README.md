@@ -1,5 +1,6 @@
 # E-commerce MVP
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+Deployed application no vercel. Link: https://frontend-e-commerce-teal.vercel.app/
 
 ## Getting Started
 
@@ -52,6 +53,8 @@ npm run lint:fix
 ```
 
 ## Learn More
+
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 To learn more about Next.js, take a look at the following resources:
 
