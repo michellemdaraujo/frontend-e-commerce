@@ -1,7 +1,8 @@
 import Image from 'next/image';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, ReactElement } from 'react';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
+import { useRouter } from 'next/router';
 
 import { useAppDispatch, useAppSelector, wrapper } from '@/store/store';
 import {
@@ -16,7 +17,7 @@ import { getBrandById } from '@/store/features/brands-slice';
 import { getCategories } from '@/store/features/categories-slice';
 import { Category } from '@/store/types';
 import Spinner from '@/components/spinner';
-import { useRouter } from 'next/router';
+import { Layout } from '@/layouts/layout';
 
 const ProductPage = () => {
   const router = useRouter();
@@ -184,5 +185,7 @@ ProductPage.getInitialProps = wrapper.getInitialPageProps(
       await dispatch(getCategories(product.category_id));
     },
 );
+
+ProductPage.getLayout = (page: ReactElement) => <Layout>{page}</Layout>;
 
 export default ProductPage;
