@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import queryString from 'query-string';
 
 import { API_URL } from '@/config/environment';
-import { getValuableObject, ObjectType } from '@/utils/helpers';
+import { FilterType } from '@/utils/helpers';
 
 import { Product } from '../types';
 
@@ -10,10 +10,9 @@ const INITIAL_STATE: Product[] = [];
 
 export const getProducts = createAsyncThunk(
   'products/getProducts',
-  async (filters: ObjectType, { rejectWithValue }) => {
+  async (filters: FilterType, { rejectWithValue }) => {
     try {
-      const valuableFilters = getValuableObject(filters);
-      const queryFilters = queryString.stringify(valuableFilters);
+      const queryFilters = queryString.stringify(filters);
 
       const endpoint = queryFilters ? `/products?${queryFilters}` : '/products';
 

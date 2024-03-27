@@ -8,9 +8,10 @@ import { getDesigners } from '@/store/features/designers-slice';
 import { getBrands } from '@/store/features/brands-slice';
 import { getCategories } from '@/store/features/categories-slice';
 import Product from '@/components/product';
-import Select from '@/components/select';
+import MultiSelect from '@/components/multi-select';
 import Spinner from '@/components/spinner';
 import { Layout } from '@/layouts/layout';
+import { formatFilters } from '@/utils/helpers';
 
 import EmptySearchImage from '../public/empty.jpg';
 import {
@@ -19,6 +20,10 @@ import {
   Designer,
   Product as ProductType,
 } from '@/store/types';
+import {
+  SelectValue,
+  Option,
+} from 'react-tailwindcss-select/dist/components/type';
 
 export const Home = () => {
   const dispatch = useAppDispatch();
@@ -37,82 +42,74 @@ export const Home = () => {
     (state) => state.loading.getCategories,
   );
 
-  const [selectedDesigner, setSelectedDesigner] = useState<string | number>('');
-  const [selectedBrand, setSelectedBrand] = useState<string | number>('');
-  const [selectedCategory, setSelectedCategory] = useState<string | number>('');
+  const [selectedDesigners, setSelectedDesigners] = useState<Option[] | null>(
+    null,
+  );
+  const [selectedBrands, setSelectedBrands] = useState<Option[] | null>(null);
+  const [selectedCategories, setSelectedCategories] = useState<Option[] | null>(
+    null,
+  );
 
   useEffect(() => {
-    const filters = {
-      designer_id: selectedDesigner,
-      brand_id: selectedBrand,
-      category_id: selectedCategory,
-    };
+    const filters = formatFilters({
+      designers: selectedDesigners,
+      brands: selectedBrands,
+      categories: selectedCategories,
+    });
 
     dispatch(getProducts(filters));
-  }, [dispatch, selectedBrand, selectedCategory, selectedDesigner]);
+  }, [dispatch, selectedBrands, selectedCategories, selectedDesigners]);
 
   // Get filters
   useEffect(() => {
     dispatch(getDesigners());
     dispatch(getBrands());
-    dispatch(getCategories([]));
+    dispatch(getCategories(null));
   }, [dispatch]);
 
   const designersOptions = useMemo(
     () =>
       designers?.map((designer: Designer) => ({
-        name: designer.name,
+        label: designer.name,
         value: designer.id,
       })),
     [designers],
   );
 
-  const onChangeBrand = useCallback(
-    (event: React.ChangeEvent<HTMLSelectElement>) => {
-      const { value } = event.target;
-      setSelectedBrand(value);
-    },
-    [],
-  );
+  const onChangeDesigner = useCallback((option: SelectValue) => {
+    setSelectedDesigners((option as Option[]) || null);
+  }, []);
 
   const brandsOptions = useMemo(
     () =>
       brands?.map((brand: Brand) => ({
-        name: brand.name,
+        label: brand.name,
         value: brand.id,
       })),
     [brands],
   );
 
-  const onChangeDesigner = useCallback(
-    (event: React.ChangeEvent<HTMLSelectElement>) => {
-      const { value } = event.target;
-      setSelectedDesigner(value);
-    },
-    [],
-  );
+  const onChangeBrand = useCallback((option: SelectValue) => {
+    setSelectedBrands((option as Option[]) || null);
+  }, []);
 
   const categoriesOptions = useMemo(
     () =>
       categories?.map((category: Category) => ({
-        name: category.name,
+        label: category.name,
         value: category.id,
       })),
     [categories],
   );
 
-  const onChangeCategory = useCallback(
-    (event: React.ChangeEvent<HTMLSelectElement>) => {
-      const { value } = event.target;
-      setSelectedCategory(value);
-    },
-    [],
-  );
+  const onChangeCategory = useCallback((option: SelectValue) => {
+    setSelectedCategories((option as Option[]) || null);
+  }, []);
 
   const onResetFilters = useCallback(() => {
-    setSelectedBrand('');
-    setSelectedDesigner('');
-    setSelectedCategory('');
+    setSelectedDesigners(null);
+    setSelectedBrands(null);
+    setSelectedCategories(null);
   }, []);
 
   const renderContent = useMemo(() => {
@@ -155,45 +152,51 @@ export const Home = () => {
         description="Browse the best fashion products in the universe"
       />
       <div className="mx-auto max-w-screen-xl">
-        <h1 className="text-xl text-gray-800">Products Catalog</h1>
-        <div className="flex flex-col items-start py-4 md:flex-row">
+        <h1 className="text-3xl text-gray-800">Products Catalog</h1>
+        <div className="flex flex-col py-4 lg:flex-row lg:items-start">
           <p className="text-md mr-8 text-gray-600">Filter by: </p>
-          <Select
-            label="Designers"
-            items={designersOptions}
-            hasEmptyValue
-            onChange={onChangeDesigner}
-            value={selectedDesigner}
-            className="min-w-48"
-            isLoadingOptions={isGettingDesigners}
-          />
-          <Select
-            label="Brands"
-            items={brandsOptions}
-            hasEmptyValue
-            onChange={onChangeBrand}
-            value={selectedBrand}
-            className="min-w-48 md:ml-4"
-            isLoadingOptions={isGettingBrands}
-          />
-          <Select
-            label="Categories"
-            items={categoriesOptions}
-            hasEmptyValue
-            onChange={onChangeCategory}
-            value={selectedCategory}
-            className="min-w-48 md:ml-4"
-            isLoadingOptions={isGettingCategories}
-          />
-          {(selectedBrand || selectedCategory || selectedDesigner) && (
-            <button
-              className="self-end rounded-full px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 md:ml-2"
-              onClick={onResetFilters}
-            >
-              X Clear filters
-            </button>
-          )}
+          <div className="flex flex-col flex-wrap md:flex-1 lg:flex-row">
+            <MultiSelect
+              label="Designers"
+              options={designersOptions}
+              value={selectedDesigners}
+              primaryColor="blue"
+              onChange={onChangeDesigner}
+              isLoadingOptions={isGettingDesigners}
+              className="flex-1 lg:mr-4"
+            />
+            <MultiSelect
+              label="Brands"
+              options={brandsOptions}
+              value={selectedBrands}
+              primaryColor="blue"
+              onChange={onChangeBrand}
+              isLoadingOptions={isGettingBrands}
+              className="flex-1 lg:mr-4"
+            />
+            <MultiSelect
+              label="Categories"
+              options={categoriesOptions}
+              value={selectedCategories}
+              primaryColor="blue"
+              onChange={onChangeCategory}
+              isLoadingOptions={isGettingCategories}
+              className="flex-1"
+            />
+          </div>
         </div>
+        {!!(
+          selectedBrands?.length ||
+          selectedCategories?.length ||
+          selectedDesigners?.length
+        ) && (
+          <button
+            className="rounded-full p-2 text-sm text-gray-600 hover:bg-gray-50"
+            onClick={onResetFilters}
+          >
+            X Clear filters
+          </button>
+        )}
         {renderContent}
       </div>
     </main>
