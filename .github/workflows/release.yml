@@ -13,6 +13,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Set up Git credentials
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -26,16 +31,24 @@ jobs:
 
       - name: Commit changelog
         run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
           git add CHANGELOG.md
           git commit -m "chore(release): update changelog"
 
       - name: Push changes
-        uses: ad-m/github-push-action@v0.6.0
+        uses: actions/github-script@v6
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref }}
+          script: |
+            const github = require('@actions/github');
+            const context = github.context;
+
+            const ref = context.ref.replace('refs/tags/', '');
+            await github.rest.git.updateRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: `refs/tags/${ref}`,
+              sha: context.sha,
+              force: true
+            });
 
       - name: Create GitHub release
         id: create_release
