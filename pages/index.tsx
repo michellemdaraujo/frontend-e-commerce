@@ -157,7 +157,7 @@ export const Home = () => {
       <div className="mx-auto max-w-screen-xl">
         <h1 className="text-3xl">Products Catalog</h1>
         <div className="flex flex-col py-4 lg:flex-row lg:items-start">
-          <p className="text-md mr-8 ">Filter by: </p>
+          <p className="text-md mr-8 ">Filter by:</p>
           <div className="flex flex-col flex-wrap md:flex-1 lg:flex-row">
             <MultiSelect
               label="Designers"
