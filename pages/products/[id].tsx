@@ -92,8 +92,10 @@ const ProductPage = () => {
         return (
           value && (
             <p className="mt-2" key={label}>
-              <span className="font-bold text-gray-700">{label} </span>
-              <span className="text-gray-600">{value}</span>
+              <span className="text-color-text-tertiary font-bold">
+                {label}{' '}
+              </span>
+              <span className="text-color-text-secondary">{value}</span>
             </p>
           )
         );
@@ -118,7 +120,7 @@ const ProductPage = () => {
       <div className="max-w-screen-xl px-4 ">
         <Link
           href="/"
-          className="text-gray-600 hover:text-gray-800 hover:underline"
+          className="hover:text-color-text-primary text-color-text-secondary hover:underline"
         >
           ← Back to products
         </Link>
@@ -131,25 +133,27 @@ const ProductPage = () => {
                 sizes="100vw"
                 width={600}
                 height={600}
-                className="overflow-hidden rounded-xl"
+                className="bg-color-content-9 overflow-hidden rounded-xl"
                 priority
               />
             </div>
             <div className="flex-1 md:ml-12">
-              <p className="mb-2 text-2xl font-bold text-gray-800">
+              <p className="text-color-text-primary mb-2 text-2xl font-bold">
                 {product.name}
               </p>
 
-              <p className="mb-4 text-sm text-gray-600">
+              <p className="text-color-text-secondary mb-4 text-sm">
                 {product.description}
               </p>
               <p>
-                <span className=" text-lg font-bold text-gray-700">
+                <span className=" text-color-text-tertiary text-lg font-bold">
                   Price:{' '}
                 </span>
-                <span className="text-gray-600">$ {product.price}</span>
+                <span className="text-color-text-secondary">
+                  $ {product.price}
+                </span>
               </p>
-              <p className="mt-8 text-lg font-bold text-gray-800">
+              <p className="text-color-text-primary mt-8 text-lg font-bold">
                 Product details:
               </p>
               {renderDetails}
@@ -158,7 +162,7 @@ const ProductPage = () => {
                   {categories?.map((category: Category) => (
                     <p
                       key={category.id}
-                      className="mr-2 rounded-full bg-gray-100 px-4 py-2 text-sm"
+                      className="bg-color-content-9 mr-2 rounded-full px-4 py-2 text-sm"
                     >
                       {category.name}
                     </p>

@@ -16,7 +16,7 @@ const Header = () => {
 
   return (
     <header>
-      <nav className="border-gray-200 bg-gray-800 px-4 py-4 lg:px-6">
+      <nav className="bg-color-content-1 px-4 py-4 lg:px-6">
         <div className="mx-auto flex max-w-screen-xl items-center">
           <Link href="/" className="mr-10 flex items-center">
             <Image src={NextLogo} alt="logo" width="90" className="mr-3" />
@@ -30,7 +30,7 @@ const Header = () => {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="bg-primary-700 lg:text-primary-700 block rounded py-2 pl-3 pr-4 text-white lg:bg-transparent lg:p-0 dark:text-white"
+                    className="bg-primary-700 lg:text-color-text-primary-inverted text-color-text-primary-inverted block rounded py-2 pl-3 pr-4 lg:bg-transparent lg:p-0"
                   >
                     {link.name}
                   </Link>

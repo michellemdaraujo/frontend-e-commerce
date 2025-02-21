@@ -1,6 +1,6 @@
 import Select from 'react-tailwindcss-select';
 import type { SelectProps } from 'react-tailwindcss-select/dist/components/type';
-import Spinner from '../spinner';
+import Skeleton from '../skeleton';
 
 type BaseProps = {
   className?: string;
@@ -20,9 +20,9 @@ const MultiSelect = ({
 }: MultiSelectProps) => {
   return (
     <div className={className}>
-      <p className="text-md mb-2 block text-gray-600">{label}</p>
+      <p className="text-md text-color-text-secondary mb-2 block">{label}</p>
       {isLoadingOptions ? (
-        <Spinner size="small" />
+        <Skeleton className="h-[38px] w-full" />
       ) : (
         <Select {...props} primaryColor="blue" isMultiple />
       )}

@@ -2,16 +2,16 @@ import Link from 'next/link';
 
 const Footer = () => {
   return (
-    <footer className="m-4 rounded-lg bg-white shadow">
+    <footer className="bg-color-content-1 py-5 shadow">
       <div className="mx-auto w-full max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
-        <span className="text-sm text-gray-500 sm:text-center">
-          © 2023{' '}
+        <span className="text-color-text-primary-inverted text-sm sm:text-center">
+          © 2024{' '}
           <Link href="/" className="hover:underline">
             Mock™
           </Link>
           . All Rights Reserved.
         </span>
-        <ul className="mt-3 flex flex-wrap items-center text-sm font-medium text-gray-500 sm:mt-0 ">
+        <ul className="text-color-text-primary-inverted mt-3 flex flex-wrap items-center text-sm font-medium sm:mt-0 ">
           <li>
             <a href="#" className="me-4 hover:underline md:me-6">
               About

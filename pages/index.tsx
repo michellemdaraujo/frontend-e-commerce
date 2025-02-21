@@ -9,7 +9,6 @@ import { getBrands } from '@/store/features/brands-slice';
 import { getCategories } from '@/store/features/categories-slice';
 import Product from '@/components/product';
 import MultiSelect from '@/components/multi-select';
-import Spinner from '@/components/spinner';
 import { Layout } from '@/layouts/layout';
 import { formatFilters } from '@/utils/helpers';
 
@@ -24,6 +23,7 @@ import {
   SelectValue,
   Option,
 } from 'react-tailwindcss-select/dist/components/type';
+import ProductSkeleton from '@/components/skeleton/Product';
 
 export const Home = () => {
   const dispatch = useAppDispatch();
@@ -115,15 +115,18 @@ export const Home = () => {
   const renderContent = useMemo(() => {
     if (isGettingProducts || isGettingProducts === undefined) {
       return (
-        <div className="my-32 flex justify-center">
-          <Spinner />
-        </div>
+        <ul className="flex flex-wrap justify-start py-2">
+          {[...Array(6)].map((_, index) => (
+            <li key={index} className="mx-2 my-4 w-[304px]">
+              <ProductSkeleton />
+            </li>
+          ))}
+        </ul>
       );
     }
-
     if (products.length) {
       return (
-        <ul className="flex flex-wrap justify-center py-2">
+        <ul className="flex flex-wrap justify-start py-2">
           {products.map((product: ProductType) => (
             <li key={product.id} className="mx-2 my-4">
               <Product product={product} />
@@ -152,9 +155,9 @@ export const Home = () => {
         description="Browse the best fashion products in the universe"
       />
       <div className="mx-auto max-w-screen-xl">
-        <h1 className="text-3xl text-gray-800">Products Catalog</h1>
+        <h1 className="text-3xl">Products Catalog</h1>
         <div className="flex flex-col py-4 lg:flex-row lg:items-start">
-          <p className="text-md mr-8 text-gray-600">Filter by: </p>
+          <p className="text-md mr-8 ">Filter by: </p>
           <div className="flex flex-col flex-wrap md:flex-1 lg:flex-row">
             <MultiSelect
               label="Designers"
@@ -191,7 +194,7 @@ export const Home = () => {
           selectedDesigners?.length
         ) && (
           <button
-            className="rounded-full p-2 text-sm text-gray-600 hover:bg-gray-50"
+            className="text-color-text-secondary rounded-full p-2 text-sm hover:bg-gray-50"
             onClick={onResetFilters}
           >
             X Clear filters
