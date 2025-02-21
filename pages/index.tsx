@@ -115,9 +115,9 @@ export const Home = () => {
   const renderContent = useMemo(() => {
     if (isGettingProducts || isGettingProducts === undefined) {
       return (
-        <ul className="flex flex-wrap justify-start py-2">
+        <ul className="flex flex-wrap justify-center py-2">
           {[...Array(6)].map((_, index) => (
-            <li key={index} className="mx-2 my-4 w-[304px]">
+            <li key={index} className="my-4 w-[304px] sm:mx-2">
               <ProductSkeleton />
             </li>
           ))}
@@ -126,9 +126,9 @@ export const Home = () => {
     }
     if (products.length) {
       return (
-        <ul className="flex flex-wrap justify-start py-2">
+        <ul className="flex flex-wrap justify-center py-2">
           {products.map((product: ProductType) => (
-            <li key={product.id} className="mx-2 my-4">
+            <li key={product.id} className="my-4 sm:mx-2">
               <Product product={product} />
             </li>
           ))}
@@ -149,7 +149,7 @@ export const Home = () => {
   }, [isGettingProducts, products]);
 
   return (
-    <main className="px-8 py-8 md:px-16">
+    <div className="px-4 py-8 sm:px-8 md:px-6 lg:px-16">
       <NextSeo
         title="E-Commerce // Products"
         description="Browse the best fashion products in the universe"
@@ -194,7 +194,7 @@ export const Home = () => {
           selectedDesigners?.length
         ) && (
           <button
-            className="text-color-text-secondary rounded-full p-2 text-sm hover:bg-gray-50"
+            className="rounded-full p-2 text-sm text-color-text-secondary hover:bg-gray-50"
             onClick={onResetFilters}
           >
             X Clear filters
@@ -202,7 +202,7 @@ export const Home = () => {
         )}
         {renderContent}
       </div>
-    </main>
+    </div>
   );
 };
 

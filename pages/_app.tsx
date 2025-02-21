@@ -24,7 +24,9 @@ function CustomApp({ Component, pageProps }: AppPropsWithLayout) {
       <Head>
         <title>E-commerce</title>
       </Head>
-      <main className="app">{getLayout(<Component {...pageProps} />)}</main>
+      <main className="flex h-full min-h-screen flex-col">
+        {getLayout(<Component {...pageProps} />)}
+      </main>
     </>
   );
 }
