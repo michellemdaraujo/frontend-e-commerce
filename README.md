@@ -1,17 +1,18 @@
 # E-commerce MVP
 
-Deployed application no vercel. Link: https://frontend-e-commerce-teal.vercel.app/
+Deployed application no vercel. Link: https://frontend-e-commerce-gamma-seven.vercel.app/
 
 ## Getting Started
 
 - Node version: 20.8.0
 
 First, you need to install dependencies. Run:
+
 ```bash
 npm install
 # or
 yarn
-``` 
+```
 
 Then, run the development server:
 
@@ -34,11 +35,13 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 ## Run on production mode
 
 To run on production mode, you need first build you app
+
 ```bash
 npm run build
 ```
 
 Then run the server:
+
 ```bash
 npm run start
 ```
@@ -46,6 +49,7 @@ npm run start
 ## Linter
 
 To run eslint and prettier, run the command:
+
 ```bash
 npm run lint
 #or
