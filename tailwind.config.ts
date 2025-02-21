@@ -1,6 +1,7 @@
 /* eslint-disable sort-keys */
 /** @type {import('tailwindcss').Config} */
 import type { Config } from 'tailwindcss';
+import type { PluginAPI } from 'tailwindcss/types/config';
 
 const config: Config = {
   content: [
@@ -269,7 +270,7 @@ const config: Config = {
     },
   },
   plugins: [
-    function ({ addBase, theme }) {
+    function ({ addBase, theme }: PluginAPI) {
       addBase({
         ':root': {
           // Light / Default Tokens
